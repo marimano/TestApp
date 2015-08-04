@@ -1,0 +1,136 @@
+﻿<Window x:Class="ReferenceData.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:app="clr-namespace:ReferenceData"
+        Title="Users" Height="350" Width="525">
+    <Window.Resources>
+        <Style TargetType="TextBox">
+            <Style.Triggers >
+                <Trigger Property="Validation.HasError" Value="true">
+                    <Setter Property="ToolTip"  Value="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=(Validation.Errors)[0].ErrorContent}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style TargetType="ComboBox">
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError" Value="true">
+                    <Setter Property="ToolTip" Value="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=(Validation.Errors)[0].ErrorContent}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+    <Grid Background="WhiteSmoke">
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="150"/>
+            <RowDefinition Height="40"/>
+        </Grid.RowDefinitions>
+        <DataGrid Name="dgUsers" BorderBrush="{x:Null}" AutoGenerateColumns="False" 
+                  IsReadOnly="True" SelectionUnit="FullRow">
+            <DataGrid.CellStyle>
+                <Style TargetType="DataGridCell">
+                    <Setter Property="BorderThickness" Value="0"/>
+                    <Setter Property="Focusable" Value="False"/>
+                </Style>
+            </DataGrid.CellStyle>
+            <DataGrid.Columns>
+                <DataGridTextColumn Width="*" Binding="{Binding Path=FirstName}" Header="First name"/>
+                <DataGridTextColumn Width="*" Binding="{Binding Path=SecondName}" Header="Second name"/>
+                <DataGridTextColumn Width="*" Binding="{Binding Path=Country}" Header="Country"/>
+                <DataGridTextColumn Width="*" Binding="{Binding Path=Subdivision}" Header="Subdivision"/>
+                <DataGridTextColumn Width="*" Binding="{Binding Path=Location, NotifyOnSourceUpdated=True,NotifyOnTargetUpdated=True}" Header="Location"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <GroupBox Name="gbUserDetails" IsEnabled="False" Margin="4,0" Grid.Row="1" Header="Details" BorderBrush="#FFD5DFE5">
+            <Grid HorizontalAlignment="Left">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition MinWidth="120"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <TextBlock VerticalAlignment="Center">First name </TextBlock>
+                <TextBlock Grid.Row="1" VerticalAlignment="Center">Second name </TextBlock>
+                <TextBlock Grid.Row="2" VerticalAlignment="Center">Country</TextBlock>
+                <TextBlock Grid.Row="3" VerticalAlignment="Center">Subdivision</TextBlock>
+                <TextBlock Grid.Row="4" VerticalAlignment="Center">Location</TextBlock>
+                
+                <TextBox Name="TxtFirstName" Grid.Column="1" Grid.Row="0" Height="22">
+                    <TextBox.Text>
+                        <Binding BindingGroupName="UserDetail" ElementName="dgUsers" FallbackValue="{x:Static app:ReferenceDataConsts.DefaultFName}" Path="SelectedItem.FirstName" UpdateSourceTrigger="Explicit">
+                        <Binding.ValidationRules>
+                            <app:NotEmptyRule FieldName="First name" />
+                        </Binding.ValidationRules>
+                    </Binding>
+                    </TextBox.Text>
+                </TextBox>
+                <TextBox Name="TxtSecondName" Height="22" Grid.Column="1" Grid.Row="1">
+                    <TextBox.Text>
+                        <Binding BindingGroupName="UserDetail" ElementName="dgUsers" FallbackValue="{x:Static app:ReferenceDataConsts.DefaultSName}" Path="SelectedItem.SecondName" UpdateSourceTrigger="Explicit">
+                            <Binding.ValidationRules>
+                                <app:NotEmptyRule FieldName="Second name" />
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
+                <ComboBox Grid.Column="1" Grid.Row="2" Name="cbCountry"
+                          DisplayMemberPath="Description" Height="23" SelectionChanged="cbCountry_SelectionChanged"
+                          SelectedValuePath="Id" Text="{Binding SelectedItem.Country, 
+                            UpdateSourceTrigger=Explicit, ElementName=dgUsers}">
+                    <ComboBox.SelectedValue>
+                        <Binding ElementName="dgUsers" FallbackValue="-1" 
+                                 UpdateSourceTrigger="Explicit" Path="SelectedItem.CountryId">
+                            <Binding.ValidationRules>
+                                <app:ValidIdRule FieldName="Country"/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </ComboBox.SelectedValue>
+                </ComboBox>
+                <ComboBox Grid.Column="1" Grid.Row="3" Name="cbSubdivision" DisplayMemberPath="Description" 
+                          Text="{Binding SelectedItem.Subdivision, UpdateSourceTrigger=Explicit, 
+                            ElementName=dgUsers}" SelectedValuePath="Id" Height="23"
+                          SelectionChanged="cbSubdivision_SelectionChanged">
+                    <ComboBox.SelectedValue>
+                        <Binding ElementName="dgUsers" FallbackValue="-1" 
+                                 UpdateSourceTrigger="Explicit" Path="SelectedItem.SubdivisionId">
+                            <Binding.ValidationRules>
+                                <app:ValidIdRule FieldName="Subdivision"/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </ComboBox.SelectedValue>
+                </ComboBox>
+                <ComboBox Grid.Column="1" Grid.Row="4" Name="cbLocation" DisplayMemberPath="Description" 
+                          SelectedValuePath="Id" Text="{Binding SelectedItem.Location, 
+                            UpdateSourceTrigger=Explicit, ElementName=dgUsers}" Height="23">
+                    <ComboBox.SelectedValue>
+                        <Binding ElementName="dgUsers" FallbackValue="-1" 
+                                 UpdateSourceTrigger="Explicit" Path="SelectedItem.LocationId">
+                            <Binding.ValidationRules>
+                                <app:ValidIdRule FieldName="Location"/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </ComboBox.SelectedValue>
+                </ComboBox>
+            </Grid>
+            
+        </GroupBox>
+        <Grid Name="gButtons" IsEnabled="False" Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="60"/>
+                <ColumnDefinition Width="60"/>
+                <ColumnDefinition Width="60"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Button Name="BtnNew" Grid.Column="0" Width="50" Height="25" Content="New" Click="BtnNewClick"/>
+            <Button Name="BtnSave" Grid.Column="1" Width="50" Height="25" Content="Save" Click="BtnSaveClick"/>
+            <Button Name="BtnCancel" Grid.Column="2" Width="50" Height="25" Content="Cancel" Click="BtnCancelClick"/>
+            <ProgressBar Name="pbBusyIndicator" Grid.Column="3" Height="25" Width="100" IsIndeterminate="True"/>
+        </Grid>
+    </Grid>
+</Window>

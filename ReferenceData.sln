@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReferenceData", "ReferenceData\ReferenceData.csproj", "{2253F504-D4AA-4B91-AF51-058EAE8AB731}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReferenceData.DAL", "ReferenceData.DAL\ReferenceData.DAL.csproj", "{82DC8C3B-FD04-45EF-8D4E-95792F265497}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2253F504-D4AA-4B91-AF51-058EAE8AB731}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2253F504-D4AA-4B91-AF51-058EAE8AB731}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2253F504-D4AA-4B91-AF51-058EAE8AB731}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2253F504-D4AA-4B91-AF51-058EAE8AB731}.Release|Any CPU.Build.0 = Release|Any CPU
+		{82DC8C3B-FD04-45EF-8D4E-95792F265497}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{82DC8C3B-FD04-45EF-8D4E-95792F265497}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{82DC8C3B-FD04-45EF-8D4E-95792F265497}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{82DC8C3B-FD04-45EF-8D4E-95792F265497}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

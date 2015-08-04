@@ -1,0 +1,254 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="ReferenceDataModel.Store" Alias="Self" Provider="System.Data.SqlServerCe.4.0" ProviderManifestToken="4.0" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityContainer Name="ReferenceDataModelStoreContainer">
+          <EntitySet Name="Country" EntityType="ReferenceDataModel.Store.Country" store:Type="Tables" />
+          <EntitySet Name="Location" EntityType="ReferenceDataModel.Store.Location" store:Type="Tables" />
+          <EntitySet Name="Subdivision" EntityType="ReferenceDataModel.Store.Subdivision" store:Type="Tables" />
+          <EntitySet Name="User" EntityType="ReferenceDataModel.Store.User" store:Type="Tables" />
+          <AssociationSet Name="Location_Subdivision" Association="ReferenceDataModel.Store.Location_Subdivision">
+            <End Role="Subdivision" EntitySet="Subdivision" />
+            <End Role="Location" EntitySet="Location" />
+          </AssociationSet>
+          <AssociationSet Name="Subdivision_Country" Association="ReferenceDataModel.Store.Subdivision_Country">
+            <End Role="Country" EntitySet="Country" />
+            <End Role="Subdivision" EntitySet="Subdivision" />
+          </AssociationSet>
+          <AssociationSet Name="User_Location" Association="ReferenceDataModel.Store.User_Location">
+            <End Role="Location" EntitySet="Location" />
+            <End Role="User" EntitySet="User" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Country">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Description" Type="nvarchar" Nullable="false" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Location">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Description" Type="nvarchar" MaxLength="100" />
+          <Property Name="SubdivisionId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Subdivision">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Description" Type="nvarchar" Nullable="false" MaxLength="100" />
+          <Property Name="CountryId" Type="int" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="nvarchar" Nullable="false" MaxLength="100" />
+          <Property Name="SecondName" Type="nvarchar" Nullable="false" MaxLength="100" />
+          <Property Name="LocationId" Type="int" />
+        </EntityType>
+        <Association Name="Location_Subdivision">
+          <End Role="Subdivision" Type="ReferenceDataModel.Store.Subdivision" Multiplicity="1" />
+          <End Role="Location" Type="ReferenceDataModel.Store.Location" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Subdivision">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Location">
+              <PropertyRef Name="SubdivisionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Subdivision_Country">
+          <End Role="Country" Type="ReferenceDataModel.Store.Country" Multiplicity="0..1" />
+          <End Role="Subdivision" Type="ReferenceDataModel.Store.Subdivision" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Country">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Subdivision">
+              <PropertyRef Name="CountryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="User_Location">
+          <End Role="Location" Type="ReferenceDataModel.Store.Location" Multiplicity="0..1" />
+          <End Role="User" Type="ReferenceDataModel.Store.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="LocationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ReferenceDataModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="ReferenceDataEntities" p1:LazyLoadingEnabled="true">
+          <EntitySet Name="Countries" EntityType="ReferenceDataModel.Country" />
+          <EntitySet Name="Locations" EntityType="ReferenceDataModel.Location" />
+          <EntitySet Name="Subdivisions" EntityType="ReferenceDataModel.Subdivision" />
+          <EntitySet Name="Users" EntityType="ReferenceDataModel.User" />
+          <AssociationSet Name="Subdivision_Country" Association="ReferenceDataModel.Subdivision_Country">
+            <End Role="Country" EntitySet="Countries" />
+            <End Role="Subdivision" EntitySet="Subdivisions" />
+          </AssociationSet>
+          <AssociationSet Name="Location_Subdivision" Association="ReferenceDataModel.Location_Subdivision">
+            <End Role="Subdivision" EntitySet="Subdivisions" />
+            <End Role="Location" EntitySet="Locations" />
+          </AssociationSet>
+          <AssociationSet Name="User_Location" Association="ReferenceDataModel.User_Location">
+            <End Role="Location" EntitySet="Locations" />
+            <End Role="User" EntitySet="Users" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Country">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="100" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Subdivisions" Relationship="ReferenceDataModel.Subdivision_Country" FromRole="Country" ToRole="Subdivision" />
+        </EntityType>
+        <EntityType Name="Location">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="Description" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
+          <Property Name="SubdivisionId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Subdivision" Relationship="ReferenceDataModel.Location_Subdivision" FromRole="Location" ToRole="Subdivision" />
+          <NavigationProperty Name="Users" Relationship="ReferenceDataModel.User_Location" FromRole="Location" ToRole="User" />
+        </EntityType>
+        <EntityType Name="Subdivision">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="100" Unicode="true" FixedLength="false" />
+          <Property Name="CountryId" Type="Int32" />
+          <NavigationProperty Name="Country" Relationship="ReferenceDataModel.Subdivision_Country" FromRole="Subdivision" ToRole="Country" />
+          <NavigationProperty Name="Locations" Relationship="ReferenceDataModel.Location_Subdivision" FromRole="Subdivision" ToRole="Location" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="100" Unicode="true" FixedLength="false" />
+          <Property Name="SecondName" Type="String" Nullable="false" MaxLength="100" Unicode="true" FixedLength="false" />
+          <Property Name="LocationId" Type="Int32" />
+          <NavigationProperty Name="Location" Relationship="ReferenceDataModel.User_Location" FromRole="User" ToRole="Location" />
+        </EntityType>
+        <Association Name="Subdivision_Country">
+          <End Role="Country" Type="ReferenceDataModel.Country" Multiplicity="0..1" />
+          <End Role="Subdivision" Type="ReferenceDataModel.Subdivision" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Country">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Subdivision">
+              <PropertyRef Name="CountryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Location_Subdivision">
+          <End Role="Subdivision" Type="ReferenceDataModel.Subdivision" Multiplicity="1" />
+          <End Role="Location" Type="ReferenceDataModel.Location" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Subdivision">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Location">
+              <PropertyRef Name="SubdivisionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="User_Location">
+          <End Role="Location" Type="ReferenceDataModel.Location" Multiplicity="0..1" />
+          <End Role="User" Type="ReferenceDataModel.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="LocationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ReferenceDataModelStoreContainer" CdmEntityContainer="ReferenceDataEntities">
+          <EntitySetMapping Name="Countries">
+            <EntityTypeMapping TypeName="ReferenceDataModel.Country">
+              <MappingFragment StoreEntitySet="Country">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Locations">
+            <EntityTypeMapping TypeName="ReferenceDataModel.Location">
+              <MappingFragment StoreEntitySet="Location">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="SubdivisionId" ColumnName="SubdivisionId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Subdivisions">
+            <EntityTypeMapping TypeName="ReferenceDataModel.Subdivision">
+              <MappingFragment StoreEntitySet="Subdivision">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="CountryId" ColumnName="CountryId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="ReferenceDataModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="SecondName" ColumnName="SecondName" />
+                <ScalarProperty Name="LocationId" ColumnName="LocationId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
