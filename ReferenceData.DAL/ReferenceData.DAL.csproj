@@ -49,25 +49,14 @@
       <HintPath>..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.Entity" />
-    <Reference Include="System.Data.SqlServerCe, Version=4.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" />
-    <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.Security" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IView.cs" />
     <Compile Include="Model.cs" />
     <Compile Include="Model\Country.cs">
       <DependentUpon>ReferenceDataModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\IReferenceDataEntities.cs" />
     <Compile Include="Model\Location.cs">
       <DependentUpon>ReferenceDataModel.tt</DependentUpon>
     </Compile>
@@ -92,7 +81,6 @@
     <Compile Include="Model\User.cs">
       <DependentUpon>ReferenceDataModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Presenter.cs" />
     <Compile Include="Services\CountriesService.cs" />
     <Compile Include="Services\LocationsService.cs" />
     <Compile Include="Services\SubdivisionService.cs" />
@@ -103,6 +91,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="UserData.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Model\ReferenceData.sdf">

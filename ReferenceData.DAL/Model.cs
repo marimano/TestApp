@@ -1,43 +1,39 @@
 ﻿using ReferenceData.DAL.Model;
 using ReferenceData.DAL.Services;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ReferenceData.DAL
 {
-    internal class DataModel
+    public class DataModel
     {
-        UsersService userService = new UsersService();
-        LocationsService locationService = new LocationsService();
-        SubdivisionService subdivisionService = new SubdivisionService();
-        CountriesService countryService = new CountriesService();
+        readonly UsersService _userService = new UsersService();
+        readonly LocationsService _locationService = new LocationsService();
+        readonly SubdivisionService _subdivisionService = new SubdivisionService();
+        readonly CountriesService _countryService = new CountriesService();
 
-        internal IEnumerable<User> GetUsers()
+        public IEnumerable<UserData> GetUsers()
         {
-            return userService.GetItems();
+            return _userService.GetDataItems();
         }
 
-        internal IEnumerable<Location> GetLocations()
+        public IEnumerable<Location> GetLocations()
         {
-            return locationService.GetItems();
+            return _locationService.GetItems();
         }
 
-        internal IEnumerable<Subdivision> GetSubdivisions()
+        public IEnumerable<Subdivision> GetSubdivisions()
         {
-            return subdivisionService.GetItems();
+            return _subdivisionService.GetItems();
         }
 
-        internal IEnumerable<Country> GetCountries()
+        public IEnumerable<Country> GetCountries()
         {
-            return countryService.GetItems();
+            return _countryService.GetItems();
         }
 
-        internal bool UpdateUser(User userToUpdate)
+        public bool UpdateUser(UserData userToUpdate)
         {
-            return userService.AddOrUpdate(userToUpdate);
+            return _userService.AddOrUpdate(userToUpdate);
         }
     }
 }

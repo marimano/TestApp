@@ -1,54 +1,63 @@
 ﻿using ReferenceData.DAL.Model;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ReferenceData.DAL.Services
 {
     public class UsersService
     {
-        public bool AddOrUpdate(User user)
+        public bool AddOrUpdate(UserData userData)
         {
             using (var connection = new ReferenceDataEntities())
             {
-                var oldValue = connection.Users.FirstOrDefault(x => x.Id == user.Id);
-                if (oldValue != null)
+                var user = connection.Users.FirstOrDefault(x => x.Id == userData.Id);
+                var isAdd = false;
+                if (user == null)
                 {
-                    connection.Entry(oldValue).CurrentValues.SetValues(user);
+                    isAdd = true;
+                    user = new User();
                 }
-                else
+
+                SetValues(user, userData);
+                if (isAdd)
                 {
                     connection.Users.Add(user);
                 }
 
                 var result = connection.SaveChanges();
+                userData.Id = user.Id;
                 var expectedResult = 1;
                 return result == expectedResult;
             }
         }
 
-        public IEnumerable<User> GetItems()
+        private static void SetValues(User to, UserData from)
         {
-            List<User> users;
-            using (var connection = new ReferenceDataEntities())
-            {
-                users = connection.Users.ToList();
-            }
-
-            return users;
+            to.FirstName = from.FirstName;
+            to.SecondName = from.SecondName;
+            to.LocationId = from.Location != null ? (int?)from.Location.Id : null;
         }
 
-        public User GetItem(int id)
+        public IEnumerable<UserData> GetDataItems()
         {
-            User user;
             using (var connection = new ReferenceDataEntities())
             {
-                user = connection.Users.FirstOrDefault(x => x.Id == id);
-            }
+                var query = from u in connection.Users
+                    let l = u.Location
+                    let s = l != null ? l.Subdivision : null
+                    let c = s != null ? s.Country : null
+                    select new UserData
+                    {
+                        Id = u.Id,
+                        FirstName = u.FirstName,
+                        SecondName = u.SecondName,
+                        Country = c,
+                        Subdivision = s,
+                        Location = l
+                    };
 
-            return user;
+                return query.ToList();
+            }
         }
     }
 }

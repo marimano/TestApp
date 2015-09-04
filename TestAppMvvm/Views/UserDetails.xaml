@@ -1,0 +1,70 @@
+﻿<UserControl x:Class="TestAppMvvm.Views.UserDetails"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" MinWidth="450">
+    <UserControl.Resources>
+        <DataTemplate DataType="{x:Type ValidationError}">
+            <TextBlock Foreground="Red" VerticalAlignment="Center" 
+                       Margin="10,0,0,0" Text="{Binding Path=ErrorContent}" />
+       </DataTemplate>
+    </UserControl.Resources>
+    <GroupBox Height="150" Margin="4,0" Header="Details" BorderBrush="#FFD5DFE5">
+        <Grid HorizontalAlignment="Left">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition MinWidth="120"/>
+                <ColumnDefinition Width="180"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <TextBlock VerticalAlignment="Center">First name</TextBlock>
+            <TextBlock Grid.Row="1" VerticalAlignment="Center">Second name</TextBlock>
+            <TextBlock Grid.Row="2" VerticalAlignment="Center">Country</TextBlock>
+            <TextBlock Grid.Row="3" VerticalAlignment="Center">Subdivision</TextBlock>
+            <TextBlock Grid.Row="4" VerticalAlignment="Center">Location</TextBlock>
+
+            <TextBox Name="TxtFirstName" Grid.Column="1" Grid.Row="0" Height="22"
+                    Text="{Binding Path=FirstName, 
+                    ValidatesOnDataErrors=True, 
+                    UpdateSourceTrigger=PropertyChanged}"/>
+            <ContentPresenter Grid.Row="0" Grid.Column="2"
+                    Content="{Binding ElementName=TxtFirstName, Path=(Validation.Errors).CurrentItem}" />
+
+            <TextBox Name="TxtSecondName" Height="22" Grid.Column="1" Grid.Row="1"
+                    Text="{Binding Path=SecondName, 
+                    ValidatesOnDataErrors=True, 
+                    UpdateSourceTrigger=PropertyChanged}"/>
+            <ContentPresenter Grid.Row="1" Grid.Column="2"
+                    Content="{Binding ElementName=TxtSecondName, Path=(Validation.Errors).CurrentItem}" />
+
+            <ComboBox Grid.Column="1" Grid.Row="2" Name="cbCountry"
+                          DisplayMemberPath="Description" Height="23"
+                          SelectedValuePath="Id" 
+                          ItemsSource="{Binding Countries}"
+                          SelectedValue="{Binding CountryId, ValidatesOnDataErrors=True}" />
+            <ContentPresenter Grid.Row="2" Grid.Column="2"
+                    Content="{Binding ElementName=cbCountry, Path=(Validation.Errors).CurrentItem}" />
+
+            <ComboBox Grid.Column="1" Grid.Row="3" Name="cbSubdivision" DisplayMemberPath="Description" 
+                          SelectedValuePath="Id" Height="23"
+                          ItemsSource="{Binding Subdivisions}" IsSynchronizedWithCurrentItem="True"
+                          SelectedValue="{Binding Path=SubdivisionId, ValidatesOnDataErrors=True}" />
+            <ContentPresenter Grid.Row="3" Grid.Column="2"
+                    Content="{Binding ElementName=cbSubdivision, Path=(Validation.Errors).CurrentItem}" />
+
+            <ComboBox Grid.Column="1" Grid.Row="4" Name="cbLocation" DisplayMemberPath="Description" 
+                          SelectedValuePath="Id" Height="23"
+                          ItemsSource="{Binding Locations}" IsSynchronizedWithCurrentItem="True"
+                          SelectedValue="{Binding Path=LocationId, ValidatesOnDataErrors=True}" />
+            <ContentPresenter Grid.Row="4" Grid.Column="2"
+                    Content="{Binding ElementName=cbLocation, Path=(Validation.Errors).CurrentItem}" />
+        </Grid>
+    </GroupBox>
+</UserControl>

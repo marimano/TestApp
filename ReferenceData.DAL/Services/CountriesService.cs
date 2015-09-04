@@ -13,17 +13,17 @@ namespace ReferenceData.DAL.Services
         {
             using (var connection = new ReferenceDataEntities())
             {
-                Country oldValue = connection.Countries.FirstOrDefault(x => x.Id == country.Id);
+                var oldValue = connection.Countries.FirstOrDefault(x => x.Id == country.Id);
                 if (oldValue != null)
                 {
                     connection.Entry(oldValue).CurrentValues.SetValues(country);
-                    connection.SaveChanges();
                 }
                 else
                 {
                     connection.Countries.Add(country);
-                    connection.SaveChanges();
                 }
+                
+				connection.SaveChanges();
             }
         }
 
